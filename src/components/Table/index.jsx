@@ -10,6 +10,8 @@ const Table = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cities, setCities] = useState([]);
 
+  const [error, setError] = useState("");
+
   const [totalPages, setTotalPages] = useState(0);
   const [, setTotalItems] = useState(0);
 
@@ -22,15 +24,19 @@ const Table = () => {
   const fetchData = useCallback(
     async (paginationInfo) => {
       setIsLoading(true);
-      const result = await fetchCities(paginationInfo);
-      setIsLoading(false);
-
-      if (result?.data) {
-        setCities(result.data);
-        setTotalPages(
-          Math.ceil(result?.metadata?.totalCount / pagination.limit)
-        );
-        setTotalItems(result?.metadata?.totalCount || 0);
+      try {
+        const result = await fetchCities(paginationInfo);
+        setIsLoading(false);
+        console.log("result", result);
+        if (result?.data) {
+          setCities(result.data);
+          setTotalPages(
+            Math.ceil(result?.metadata?.totalCount / pagination.limit)
+          );
+          setTotalItems(result?.metadata?.totalCount || 0);
+        }
+      } catch (error) {
+        console.log(error);
       }
     },
     [pagination]
@@ -99,25 +105,35 @@ const Table = () => {
             </div>
 
             <div className="city-input">
-              <label htmlFor="city-input">Number of cities to display: </label>
-              <input
-                type="number"
-                id="city-input"
-                min="1"
-                max="10"
-                defaultValue={5}
-                onChange={(e) => {
-                  const val = +e.target.value;
+              <div>
+                <label htmlFor="city-input">
+                  Number of cities to display:{" "}
+                </label>
 
-                  if (val <= 10) {
-                    setPagination((prev) => ({
-                      ...prev,
-                      limit: val,
-                      namePrefix: "",
-                    }));
-                  }
-                }}
-              />
+                <input
+                  type="number"
+                  id="city-input"
+                  min="1"
+                  max="10"
+                  defaultValue={5}
+                  onChange={(e) => {
+                    const val = +e.target.value;
+
+                    if (val <= 10 && val >= 1) {
+                      setPagination((prev) => ({
+                        ...prev,
+                        limit: val,
+                        namePrefix: "",
+                      }));
+                      setError("");
+                    } else {
+                      setError("Please enter page between 1 to 10");
+                    }
+                  }}
+                />
+
+                {error && <div className="error-msg">{error}</div>}
+              </div>
             </div>
           </div>
         )}

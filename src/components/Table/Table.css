@@ -59,3 +59,8 @@
     flex-direction: column;
   }
 }
+
+.error-msg {
+  font-size: 14px;
+  color: red;
+}
