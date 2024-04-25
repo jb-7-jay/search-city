@@ -1,0 +1,61 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+.custom-table {
+  width: 100%;
+  max-width: 800px;
+  border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 8px;
+  border: 1px solid rgb(222, 226, 230);
+}
+
+.custom-table th {
+  font-weight: 700;
+  text-align: left;
+}
+
+.loading-cell {
+  text-align: center;
+}
+
+.pagination {
+  margin-top: 10px;
+}
+
+.city-input {
+  margin-top: 10px;
+}
+
+.pagination-container {
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+
+@media (max-width: 700px) {
+  .table-footer {
+    flex-direction: column;
+  }
+}
